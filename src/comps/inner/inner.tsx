@@ -32,7 +32,7 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
 
         if(!svc) return null;
 
-        console.log(svc)
+        // console.log(svc)
         let extraPaymentIds: Array<any> = [];
 
 
@@ -41,12 +41,12 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
                 if(!paymentProps[pay_id]) {
                     extraPaymentIds.push(pay_id);
                 } else if (paymentProps[pay_id]) {
-                    console.log('here!', pay_id)
+                    // console.log('here!', pay_id)
                 }
             }
 
         })
-        console.log(extraPaymentIds)
+        // console.log(extraPaymentIds)
 
         let extraPaymentProps: Object = {}
         extraPaymentIds.forEach(pay_id => {
@@ -54,10 +54,8 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
                 extraPaymentProps = {...extraPaymentProps, [pay_id]: res}
 
                 if(Object.keys(extraPaymentProps).length === extraPaymentIds.length) {
-                    console.log('set paymentsProps! add', extraPaymentProps, paymentProps)
-                    const newProps = {...paymentProps, ...extraPaymentProps};
-                    console.log(newProps)
-                    setPaymentProps(newProps)
+                    // console.log('set paymentsProps! add', extraPaymentProps, paymentProps)
+                    setPaymentProps({...paymentProps, ...extraPaymentProps})
                 }
 
             })

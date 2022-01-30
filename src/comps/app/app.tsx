@@ -51,6 +51,7 @@ const App: React.FC<any> = (props) => {
         } else {
             console.log('ask token')
             apiService.authRequest.then(sid => {
+                console.log('set token', sid)
                 setToken(sid);
             });
         }
@@ -140,7 +141,7 @@ const App: React.FC<any> = (props) => {
             console.log('langs UE')
             setLangKit(langs[lang])
         }
-    }, [lang])
+    }, [lang, langs]);
 
     return <>
         <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps}}>

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import apiService from "../../utils/apiRequest";
 import {LangContext} from "../app/app";
 import {useNavigate} from "react-router";
@@ -13,11 +13,13 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
     const urlParam = new URLSearchParams(window.location.search);
     const context = useContext(LangContext);
     const token = urlParam.get('token_key');
-    const {langKit} = context;
+    const {lang, langKit, setPaymentProps} = context;
     const pay_id = urlParam.get('pay_id');
     const navigate = useNavigate();
     const svc = paymentProps ? paymentProps[pay_id] : null;
-    console.log(svc);
+
+    console.log('render payment')
+    console.log(svc, paymentProps);
 
 
 
@@ -174,15 +176,23 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
         }
     }
 
-
-
     useEffect(()=>{
         if(svc) {
-            console.log('svc Hook')
+            console.log('svc Hook', svc)
             jqueryCode();
-            console.log(svc.parameters)
+            // console.log(svc.parameters)
+
         }
-    },[svc])
+    }, [svc]);
+
+
+
+    if(!svc) {
+        apiService.paymentRequest(lang, token, pay_id).then(res => {
+            console.log('custom set!!!')
+            setPaymentProps({...paymentProps, [pay_id]: res})
+        });
+    }
 
     if(!svc) return null;
 
