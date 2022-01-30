@@ -12,7 +12,7 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
 
 
     const context = useContext(LangContext);
-    const {lang, langKit, paymentProps, setPaymentProps} = context;
+    const {lang, langKit, paymentProps, setPaymentProps, isVertical} = context;
 
     const urlParam = new URLSearchParams(window.location.search);
     let svc = null;
@@ -72,7 +72,7 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
                     {svc && Object.values(svc).map((obj: { color: string, id: number, name: string, logo: string }, index: number) => {
                         return <div key={index} className="buttons-grid__col buttons-grid__col-6">
                             <button className={'payment-button button-centered ' + obj.color}
-                                    onClick={() => navigate('/payment?pay_id=' + obj.id + '&id=' + id + '&token_key=' + token)}>
+                                    onClick={() => navigate('/payment?pay_id=' + obj.id + '&id=' + id + '&vertical=' + isVertical + '&token_key=' + token)}>
                                 <img src={obj.logo} alt={obj.name}/></button>
                         </div>
                     })}

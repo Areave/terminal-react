@@ -18,9 +18,7 @@ export {LangContext}
 const App: React.FC<any> = (props) => {
 
 
-
     const urlParam = new URLSearchParams(window.location.search);
-
 
 
     let [token, setToken] = useState(null);
@@ -35,16 +33,18 @@ const App: React.FC<any> = (props) => {
     const [paymentProps, setPaymentProps] = useState(null);
 
     let isVertical: string;
+    let terminalID: string;
 
     console.log('start app', paymentProps);
 
     if (urlParam.has('vertical')) {
-        isVertical = urlParam.get('token_key');
+        isVertical = urlParam.get('vertical');
     } else {
         isVertical = '0';
     }
 
-    if(!token) {
+
+    if (!token) {
         if (urlParam.has('token_key')) {
             console.log('set token')
             setToken(urlParam.get('token_key'));
@@ -53,9 +53,11 @@ const App: React.FC<any> = (props) => {
             apiService.authRequest.then(sid => {
                 console.log('set token', sid)
                 setToken(sid);
+
             });
         }
     }
+
 
     const fillFrontlineProps = () => {
 
@@ -127,7 +129,7 @@ const App: React.FC<any> = (props) => {
             apiService.frontlineRequest(lang, token).then(frontline => setFrontline(frontline));
             fillLangs();
         }
-    }, [token]);
+    }, [token, lang]);
 
     // useEffect(() => {
     //     if (frontline) {
@@ -151,15 +153,17 @@ const App: React.FC<any> = (props) => {
     }, [frontline]);
 
     return <>
-        <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps}}>
+        <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps, isVertical}}>
             <BrowserRouter>
                 <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
                 <div className="main">
                     <div className="container">
                         <Routes>
-                            <Route path='/' element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
+                            <Route path='/'
+                                   element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
                             <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
-                            <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setParams={setParams}/>}/>
+                            <Route path='/payment'
+                                   element={<PaymentPage paymentProps={paymentProps} setParams={setParams}/>}/>
                             <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
                             <Route path='/service' element={<ServicePage props={props}/>}/>
                             <Route path='/send_payment'

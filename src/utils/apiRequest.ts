@@ -85,20 +85,16 @@ const getApiServiceInstance = () => {
     }
 
     const insertCoinRequest = (token: string, transaction_code: string)=>{
-        return apiRequest('get_kiosk_transaction_status', token, {
-            transaction_code
-        })
+        return apiRequest('get_kiosk_transaction_status', token)
     };
 
     const openTerminalRequest = (token: string)=>{
-        return apiRequest('open_terminal_collection?', token, {
-
-        })
+        return apiRequest('open_terminal_collection?', token)
     };
 
 
 
-    return {authRequest, langsRequest, frontlineRequest, svcRequest, paymentRequest, otherRequest, serviceRequest, trxRequest, insertCoinRequest}
+    return {authRequest, langsRequest, frontlineRequest, svcRequest, paymentRequest, otherRequest, serviceRequest, trxRequest, insertCoinRequest, openTerminalRequest}
 }
 
 export default getApiServiceInstance();

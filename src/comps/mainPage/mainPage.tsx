@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 
 const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
     const context = useContext(LangContext);
-    const {token,langsArStatic} = context;
+    const {token,langsArStatic, isVertical} = context;
     const navigate = useNavigate();
 
 
@@ -24,7 +24,7 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
                     //     params = 'id=' + data.id +'&';
                     // }
                     const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
-                    const pathToNavigate = '/' + data.page + '?' + params + 'token_key=' + token;
+                    const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                     return <div key={index} className="buttons-grid__col buttons-grid__col-3">
                         <button className={'payment-button ' + data.color}
                                 onClick={() => navigate(pathToNavigate)}>
@@ -40,7 +40,7 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
             <div className="buttons-grid__col buttons-grid__col-3">
                 {frontline && frontline[1].map((data: any, index: number) => {
                         const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
-                        const pathToNavigate = '/' + data.page + '?' + params + 'token_key=' + token;
+                        const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                         return <button key={index} className={'payment-button ' + data.color}
                                        onClick={() => navigate(pathToNavigate)}>
                             <img src={data.logo} alt="internet"/>
@@ -52,7 +52,7 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
 
             {frontline && frontline[2].map((data: any, index: number) => {
                     const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
-                    const pathToNavigate = '/' + data.page + '?' + params + 'token_key=' + token;
+                    const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                     return <div key={index} className="buttons-grid__col buttons-grid__col-3">
                         <button className={'payment-button button--large ' + data.color}
                                 onClick={() => navigate(pathToNavigate)}>
@@ -67,7 +67,7 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
         <div className="buttons-grid__row">
             {frontline && frontline[3].map((data: any, index: number) => {
                     const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
-                    const pathToNavigate = '/' + data.page + '?' + params + 'token_key=' + token;
+                    const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                     return <div key={index} className="buttons-grid__col buttons-grid__col-6">
                         <button className={'payment-button button-centered ' + data.color}
                                 onClick={() => navigate(pathToNavigate)}>

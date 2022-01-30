@@ -12,7 +12,7 @@ const OtherPage: React.FC<any> = ({otherProps}) => {
     const urlParam = new URLSearchParams(window.location.search);
     const context = useContext(LangContext);
     const token = urlParam.get('token_key');
-    const {langKit} = context;
+    const {langKit, isVertical} = context;
     const id = urlParam.get('d');
     const navigate = useNavigate();
     const svc = otherProps ? otherProps['OTHER'] : null;
@@ -25,7 +25,7 @@ const OtherPage: React.FC<any> = ({otherProps}) => {
             <div className="buttons-grid__row">
                 {svc && svc.map((el: any, index: number) => {
                     const params = 'id=' + el.id + '&';
-                    const pathToNavigate = '/' + 'inner' + '?' + params + 'token_key=' + token;
+                    const pathToNavigate = '/' + 'inner' + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                     return <div key={index} className="buttons-grid__col buttons-grid__col-3">
                         <button className={`payment-button ${el.color}`}
                                 onClick={() => navigate(pathToNavigate)}>
