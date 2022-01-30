@@ -129,12 +129,12 @@ const App: React.FC<any> = (props) => {
         }
     }, [token]);
 
-    useEffect(() => {
-        if (frontline) {
-            console.log('frontline UE')
-            fillFrontlineProps();
-        }
-    }, [frontline]);
+    // useEffect(() => {
+    //     if (frontline) {
+    //         console.log('frontline UE')
+    //         fillFrontlineProps();
+    //     }
+    // }, [frontline]);
 
     useEffect(() => {
         if (langs) {
@@ -143,6 +143,13 @@ const App: React.FC<any> = (props) => {
         }
     }, [lang, langs]);
 
+    useEffect(() => {
+        if (frontline) {
+            console.log('frontline UE')
+            fillFrontlineProps();
+        }
+    }, [frontline]);
+
     return <>
         <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps}}>
             <BrowserRouter>
@@ -150,7 +157,7 @@ const App: React.FC<any> = (props) => {
                 <div className="main">
                     <div className="container">
                         <Routes>
-                            <Route path='/' element={<MainPage frontline={frontline}/>}/>
+                            <Route path='/' element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
                             <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
                             <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setParams={setParams}/>}/>
                             <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>

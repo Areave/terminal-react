@@ -3,10 +3,14 @@ import {LangContext} from "../app/app";
 import apiRequest from "../../utils/apiRequest";
 import {useNavigate} from 'react-router-dom'
 
-const MainPage: React.FC<any> = ({frontline}) => {
+const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
     const context = useContext(LangContext);
     const {token,langsArStatic} = context;
     const navigate = useNavigate();
+
+
+
+
 
     console.log(frontline);
     if (!frontline) return null;

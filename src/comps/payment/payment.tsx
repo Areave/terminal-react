@@ -16,12 +16,40 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
     const {lang, langKit, setPaymentProps} = context;
     const pay_id = urlParam.get('pay_id');
     const navigate = useNavigate();
-    const svc = paymentProps ? paymentProps[pay_id] : null;
+
+
+    const [thisPayment, setThisPayment] = useState(null);
+
+    let svc = thisPayment;
 
     console.log('render payment')
     console.log(svc, paymentProps);
 
 
+// useEffect(()=>{
+//     if (paymentProps) {
+//         if(paymentProps[pay_id]) {
+//             console.log('gocha! custom set!!!')
+//             setThisPayment(paymentProps[pay_id])
+//         } else {
+//             apiService.paymentRequest(lang, token, pay_id).then(res => {
+//                 console.log('custom set!!!')
+//                 setThisPayment(res);
+//             });
+//         }
+//     }
+// }, [paymentProps]);
+
+useEffect(()=>{
+    if (paymentProps) {
+        if(paymentProps[pay_id]) {
+            console.log('gocha! custom set!!!')
+            setThisPayment(paymentProps[pay_id])
+        } else {
+
+        }
+    }
+}, [paymentProps]);
 
 
     // @ts-ignore
@@ -183,18 +211,23 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
             // console.log(svc.parameters)
 
         }
-    }, [svc]);
+    }, [thisPayment]);
 
 
+// useEffect(()=>{
+//     if(!svc) {
+//         apiService.paymentRequest(lang, token, pay_id).then(res => {
+//             console.log('custom set!!!')
+//             setPaymentProps({...paymentProps, [pay_id]: res})
+//         });
+//     }
+// });
 
-    if(!svc) {
-        apiService.paymentRequest(lang, token, pay_id).then(res => {
-            console.log('custom set!!!')
-            setPaymentProps({...paymentProps, [pay_id]: res})
-        });
-    }
+
 
     if(!svc) return null;
+
+
 
     return <>
         <div className="enter-payment-info">
