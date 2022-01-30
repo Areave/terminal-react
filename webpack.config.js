@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCss = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+require('dotenv').config();
 
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: "./src/index.html",
@@ -73,13 +75,11 @@ module.exports = function (_, webpackEnv) {
         use: [{
             loader: 'file-loader',
             options: {
-                outputPath: 'media',
-                name: '[name]_[contenthash:8][ext]'
+                outputPath: 'assets/imgs',
+                name: '[name]_[contenthash:8].[ext]'
             }
         }]
     };
-
-    console.log(cssRule);
 
     return {
         devtool: isDevelopment ? 'cheap-module-source-map' : false,
@@ -93,7 +93,7 @@ module.exports = function (_, webpackEnv) {
             path: path.resolve(__dirname, 'www'),
             filename: isDevelopment ? "./js/[name].js" : "./js/[name]_[contenthash:8].js",
             chunkFilename: isDevelopment ? "./js/[name].js" : "./js/[name]_[contenthash:8].js",
-            assetModuleFilename: 'assets/[hash][ext]',
+            assetModuleFilename: 'assets/[name]_[hash][ext]',
             clean: true
         },
 
@@ -104,7 +104,7 @@ module.exports = function (_, webpackEnv) {
             minimize: isProduction,
             minimizer: [terserPlugin],
         },
-        plugins: [htmlWebpackPlugin, miniCss],
+        plugins: [htmlWebpackPlugin, miniCss, new Dotenv()],
         devServer: {
             historyApiFallback: true,
         },

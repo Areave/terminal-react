@@ -1,0 +1,150 @@
+[
+  [
+    {
+      "id": 2618,
+      "logo": "https://dev-api.u-pay.com/image?sid=0&object_id=2618",
+      "name": "អុីនធើណេត និងទូរទស្សន៍",
+      "page": "inner",
+      "color": "blue",
+      "params": {
+        "id": 2618
+      },
+      "enabled": null
+    },
+    {
+      "id": 2617,
+      "logo": "https://dev-api.u-pay.com/image?sid=0&object_id=2617",
+      "name": "ទូរស័ព្ទ",
+      "page": "inner",
+      "color": "coral",
+      "params": {
+        "id": 2617
+      },
+      "enabled": null
+    },
+    {
+      "id": 2629,
+      "logo": "https://dev-api.u-pay.com/image?sid=0&object_id=2629",
+      "name": "Education",
+      "page": "inner",
+      "color": "orange",
+      "params": {
+        "id": 2629
+      },
+      "enabled": null
+    }
+  ],
+  [
+    {
+      "id": "OTHER",
+      "logo": "https://dev-api.u-pay.com/static/categories/other-services-icon.svg",
+      "name": "Other",
+      "page": "other",
+      "color": "hot-pink",
+      "enabled": null
+    },
+    {
+      "id": "CASHOUT_KIOSK",
+      "logo": "https://dev-api.u-pay.com/static/categories/pge_2625.png",
+      "name": "Cashout",
+      "page": "payment",
+      "color": "bright-orange",
+      "params": {
+        "pay_id": "CASHOUT_KIOSK"
+      },
+      "enabled": null
+    }
+  ],
+  [
+    {
+      "id": 2623,
+      "logo": "https://dev-api.u-pay.com/image?sid=0&object_id=2623",
+      "name": "ហ្គេម",
+      "page": "inner",
+      "color": "green",
+      "params": {
+        "id": 2623
+      },
+      "enabled": null
+    },
+    {
+      "id": 2625,
+      "logo": "https://dev-api.u-pay.com/image?sid=0&object_id=2625",
+      "name": "ប្រាក់បញ្ញើ",
+      "page": "inner",
+      "color": "red",
+      "params": {
+        "id": 2625
+      },
+      "enabled": null
+    }
+  ],
+  [
+    {
+      "id": 2731,
+      "logo": "https://dev-api.u-pay.com/static/services/cellcard.png",
+      "name": "Cellcard",
+      "page": "payment",
+      "color": "bright-orange",
+      "params": {
+        "pay_id": "CELLCARD"
+      },
+      "enabled": null
+    },
+    {
+      "id": 2734,
+      "logo": "https://dev-api.u-pay.com/static/services/digi.png",
+      "name": "Digi",
+      "page": "payment",
+      "color": "yellow",
+      "params": {
+        "pay_id": "DIGI"
+      },
+      "enabled": null
+    },
+    {
+      "id": 2732,
+      "logo": "https://dev-api.u-pay.com/static/services/metfone.png",
+      "name": "Metfone",
+      "page": "payment",
+      "color": "red",
+      "params": {
+        "pay_id": "METFONE"
+      },
+      "enabled": null
+    },
+    {
+      "id": 2730,
+      "logo": "https://dev-api.u-pay.com/static/services/smart.png",
+      "name": "Smart",
+      "page": "payment",
+      "color": "green",
+      "params": {
+        "pay_id": "SMART"
+      },
+      "enabled": null
+    },
+    {
+      "id": 1537949,
+      "logo": "https://dev-api.u-pay.com/static/services/upay.png",
+      "name": "Upay",
+      "page": "payment",
+      "color": "whilte",
+      "params": {
+        "pay_id": "UPAY_DEPOSIT"
+      },
+      "enabled": null
+    },
+    {
+      "id": 1504680,
+      "logo": "https://dev-api.u-pay.com/static/services/cp_livu.png",
+      "name": "LovU",
+      "page": "payment",
+      "color": "blue",
+      "params": {
+        "pay_id": "CP_LOVU"
+      },
+      "enabled": null
+    }
+  ]
+]

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 900 600" style="enable-background:new 0 0 900 600;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:#012169;}
+	.st2{stroke:#FFFFFF;stroke-width:120;stroke-miterlimit:80;}
+	.st3{clip-path:url(#SVGID_4_);stroke:#C8102E;stroke-width:80;stroke-miterlimit:80;}
+	.st4{stroke:#FFFFFF;stroke-width:200;stroke-miterlimit:80;}
+	.st5{stroke:#C8102E;stroke-width:120;stroke-miterlimit:80;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="-150" width="1200" height="600"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st0">
+		<path class="st1" d="M-150,0v600h1200V0H-150z"/>
+		<path class="st2" d="M-150,0l1200,600 M1050,0L-150,600"/>
+		<g>
+			<defs>
+				<polygon id="SVGID_3_" points="450,300 1050,300 1050,600 450,600 -150,600 -150,300 -150,0 450,0 1050,0 				"/>
+			</defs>
+			<clipPath id="SVGID_4_">
+				<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+			</clipPath>
+			<path class="st3" d="M-150,0l1200,600 M1050,0L-150,600"/>
+		</g>
+		<path class="st4" d="M450,0v600 M-150,300h1200"/>
+		<path class="st5" d="M450,0v600 M-150,300h1200"/>
+	</g>
+</g>
+</svg>

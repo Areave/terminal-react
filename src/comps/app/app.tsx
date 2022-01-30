@@ -1,29 +1,171 @@
-import Page2 from "../page2/page2";
-import MainComponent from "../mainComponent/mainComponent";
-import LoadingButton from "../loadingButton/loadingButton";
-import Loader from "../loader/loader";
-import LoadingTitle from "../loadingTitle/loadingTitle";
-import WelcomeComp from '../welcomeComp/welcomeComp'
-import React from "react";
-import './app.scss';
 import {Types} from '../../utils/types'
-import {connect} from 'react-redux'
-import store from "../../utils/store";
+import React, {useState, useEffect, createContext} from 'react'
+import {BrowserRouter, Routes, Route,} from 'react-router-dom';
+import MainPage from "../mainPage/mainPage";
+import Header from "../header/header";
+import apiService from '../../utils/apiRequest';
+import InnerPage from "../inner/inner";
+import PaymentPage from "../payment/payment";
+import TestComp from "../testComp";
+import OtherPage from "../other/other";
+import ServicePage from "../service/service";
+import SendPaymentPage from "../sendPayment/sendPayment";
+import InsertCoinPage from '../insertCoin/insertCoin';
+
+const LangContext = createContext(null);
+export {LangContext}
 
 const App: React.FC<any> = (props) => {
 
-    return <div className="app">
-        <h1 className="title">React Webpack Template</h1>
-        <MainComponent/>
-        <LoadingButton isLoading={props.isLoading} label='loading'/>
-        <LoadingTitle title='App is loading:' isLoading={props.isLoading}/>
-        {props.isLoading && <Loader/>}
-        <WelcomeComp name={props.name}/>
-    </div>
+
+
+    const urlParam = new URLSearchParams(window.location.search);
+
+
+
+    let [token, setToken] = useState(null);
+    const [lang, setLang] = useState('KH');
+    const [langs, setLangs] = useState(null);
+    const [params, setParams] = useState(null);
+    const [langKit, setLangKit] = useState(null);
+    const [coinProps, setCoinProps] = useState(null);
+    const [frontline, setFrontline] = useState(null);
+    const [innerProps, setInnerProps] = useState(null);
+    const [otherProps, setOtherProps] = useState(null);
+    const [paymentProps, setPaymentProps] = useState(null);
+
+    let isVertical: string;
+
+    console.log('start app', paymentProps);
+
+    if (urlParam.has('vertical')) {
+        isVertical = urlParam.get('token_key');
+    } else {
+        isVertical = '0';
+    }
+
+    if(!token) {
+        if (urlParam.has('token_key')) {
+            console.log('set token')
+            setToken(urlParam.get('token_key'));
+        } else {
+            console.log('ask token')
+            apiService.authRequest.then(sid => {
+                setToken(sid);
+            });
+        }
+    }
+
+    const fillFrontlineProps = () => {
+
+        let paymentIds: Array<string> = [];
+        let otherIds: Array<string> = [];
+        let innerIds: Array<string> = [];
+
+        frontline.forEach((ar: Array<{ page: string, id: number, params?: { pay_id: string } }>) => {
+            ar.forEach(obj => {
+                if (obj.page === 'inner') {
+                    innerIds.push('' + obj.id)
+                }
+                if (obj.page === 'payment') {
+                    paymentIds.push('' + obj.params.pay_id)
+                }
+                if (obj.page === 'other') {
+                    otherIds.push('' + obj.id)
+                }
+            })
+        })
+
+        let tempInnerProps = {};
+        innerIds.forEach((id, index) => {
+            apiService.svcRequest(lang, token, id).then(res => {
+                tempInnerProps = {...tempInnerProps, [id]: res};
+                if (Object.keys(tempInnerProps).length === innerIds.length) {
+                    setInnerProps(tempInnerProps);
+                }
+            });
+        });
+
+        let tempPaymentProps = {};
+        paymentIds.forEach((pay_id, index) => {
+            // if(paymentProps[pay_id]) {continue};
+            apiService.paymentRequest(lang, token, pay_id).then(res => {
+                tempPaymentProps = {...tempPaymentProps, [pay_id]: res};
+                if (Object.keys(tempPaymentProps).length === paymentIds.length) {
+                    setPaymentProps(tempPaymentProps);
+                }
+            });
+        });
+
+        let tempOtherProps = {};
+        otherIds.forEach((id, index) => {
+            apiService.otherRequest(token).then(res => {
+                tempOtherProps = {...tempOtherProps, [id]: res};
+                if (Object.keys(tempOtherProps).length === otherIds.length) {
+                    setOtherProps(tempOtherProps);
+                }
+            });
+        });
+    }
+
+    const fillLangs = () => {
+        let langsAr = {};
+        ['KH', 'EN', 'CH'].forEach(lang => {
+            apiService.langsRequest(lang, token).then(res => {
+                langsAr = {...langsAr, [lang]: res};
+                if (Object.keys(langsAr).length === 3) {
+                    setLangs(langsAr);
+                }
+            });
+        });
+    }
+
+    useEffect(() => {
+        if (token) {
+            console.log('token UE')
+            apiService.frontlineRequest(lang, token).then(frontline => setFrontline(frontline));
+            fillLangs();
+        }
+    }, [token]);
+
+    useEffect(() => {
+        if (frontline) {
+            console.log('frontline UE')
+            fillFrontlineProps();
+        }
+    }, [frontline]);
+
+    useEffect(() => {
+        if (langs) {
+            console.log('langs UE')
+            setLangKit(langs[lang])
+        }
+    }, [lang])
+
+    return <>
+        <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps}}>
+            <BrowserRouter>
+                <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
+                <div className="main">
+                    <div className="container">
+                        <Routes>
+                            <Route path='/' element={<MainPage frontline={frontline}/>}/>
+                            <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
+                            <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setParams={setParams}/>}/>
+                            <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
+                            <Route path='/service' element={<ServicePage props={props}/>}/>
+                            <Route path='/send_payment'
+                                   element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>
+                            <Route path='/insert_coin' element={<InsertCoinPage coinProps={coinProps}/>}/>
+                            <Route path='/*' element={<TestComp/>}/>
+                        </Routes>
+
+                    </div>
+                </div>
+            </BrowserRouter>
+        </LangContext.Provider>
+    </>
 };
 
-const mapStateToProps = (state: Types.State) => {
-    return {isLoading: state.isLoading, name: state.name}
-}
 
-export default connect(mapStateToProps)(App);
+export default App;

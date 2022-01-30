@@ -1,0 +1,44 @@
+<div class="buttons-grid">
+	<!--buttons row-->
+	<div class="buttons-grid__row">
+        <repeat group="{{ @frontline[0] }}" value="{{ @s }}">
+        <div class="buttons-grid__col buttons-grid__col-3">
+			<button class="payment-button {{ @s.color }}" data-href="/{{ @s.page }}?{{ http_build_query(($s['params']??[]) + $_GET) }}">
+				<img src="{{@s.logo}}" alt="internet">
+				<span class="title">{{ @s.name }}</span>
+			</button>
+		</div>
+        </repeat>
+	</div>
+
+	<!--buttons row-->
+	<div class="buttons-grid__row">
+		<div class="buttons-grid__col buttons-grid__col-3">
+            <repeat group="{{ @frontline[1] }}" value="{{ @s }}">
+                    <button class="payment-button {{ @s.color }}" data-href="/{{ @s.page }}?{{ http_build_query(($s['params']??[]) + $_GET) }}">
+                        <img src="{{@s.logo}}" alt="internet">
+                        <span class="title">{{ @s.name }}</span>
+                    </button>
+            </repeat>
+		</div>
+        <repeat group="{{ @frontline[2] }}" value="{{ @s }}">
+        <div class="buttons-grid__col buttons-grid__col-3">
+			<button class="payment-button button--large {{@s.color}}" data-href="/{{ @s.page }}?{{ http_build_query(($s['params']??[]) + $_GET) }}">
+				<img src="{{@s.logo}}" alt="{{@s.name}}">
+				<span class="title">{{@s.name}}</span>
+			</button>
+		</div>
+        </repeat>
+
+    </div>
+
+	<!--buttons row-->
+	<div class="buttons-grid__row">
+        <repeat group="{{ @frontline[3] }}" value="{{ @s }}">
+        <div class="buttons-grid__col buttons-grid__col-6">
+            <button class="payment-button button-centered {{@s.color}}" data-href="/{{ @s.page }}?{{ http_build_query(($s['params']??[]) + $_GET) }}"><img src="{{@s.logo}}" alt="{{@s.name}}"></button>
+		</div>
+        </repeat>
+	</div>
+
+</div>

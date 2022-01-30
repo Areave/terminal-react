@@ -1,0 +1,218 @@
+{
+{
+  "id": "CELLCARD",
+  "max": 50,
+  "min": 0.25,
+  "logo": "https://dev-api.u-pay.com/static/services/cellcard.png",
+  "name": "Cellcard",
+  "sort": 3,
+  "color": "To check your balance, dial __*124#__ and press __Call__",
+  "dscrt": 0,
+  "parameters": [
+    {
+      "mask": "0[00]-[0000009]",
+      "name": "account",
+      "eg_exp": "",
+      "direction": 1,
+      "description": "To check your balance dial #124#  and press [call]",
+      "is_required": 1,
+      "display_name": "លេខទូរស័ព្ទ",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": "To check your balance, dial __*124#__ and press __Call__"
+}
+{
+  "id": "DIGI",
+  "max": 1000,
+  "min": 1,
+  "logo": "https://dev-api.u-pay.com/static/services/digi.png",
+  "name": "Digi",
+  "sort": 1000,
+  "color": "DIGI Hotline Number: __098-777-555__",
+  "dscrt": 0,
+  "parameters": [
+    {
+      "mask": "[000009]",
+      "name": "account",
+      "reg_exp": "",
+      "direction": 1,
+      "description": "DIGI Hotline Number 098 777 555",
+      "is_required": 1,
+      "display_name": "Contract ID",
+      "default_value": "",
+      "allowed_values": []
+    },
+    {
+      "mask": "",
+      "name": "custname",
+      "reg_exp": "",
+      "direction": 2,
+      "description": "Customer Name",
+      "is_required": 0,
+      "display_name": "Customer Name",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": "DIGI Hotline Number: __098-777-555__"
+}
+{
+  "id": "METFONE",
+  "max": 50,
+  "min": 1,
+  "logo": "https://dev-api.u-pay.com/static/services/metfone.png",
+  "name": "Metfone",
+  "sort": 2,
+  "color": "To check your balance, dial __*097#__ and press __Call__",
+  "dscrt": 100,
+  "parameters": [
+    {
+      "mask": "0[00]-[0000009]",
+      "name": "account",
+      "eg_exp": "",
+      "direction": 1,
+      "description": " To check your balance dial *097#  and press [call]",
+      "is_required": 1,
+      "display_name": "លេខទូរស័ព្ទ",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": "To check your balance, dial __*097#__ and press __Call__"
+}
+{
+  "id": "SMART",
+  "max": 50,
+  "min": 1,
+  "logo": "https://dev-api.u-pay.com/static/services/smart.png",
+  "name": "Smart",
+  "sort": 1,
+  "color": "To check your balance, dial *888# and press 'Call'",
+  "dscrt": 0,
+  "parameters": [
+    {
+      "mask": "0[00]-[0000009]",
+      "name": "account",
+      "eg_exp": "",
+      "direction": 1,
+      "description": "To check your balance dial *888#  and press [call]",
+      "is_required": 1,
+      "display_name": "លេខទូរស័ព្ទ",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": "To check your balance, dial *888# and press 'Call'"
+}
+{
+  "id": "CP_LOVU",
+  "max": 156,
+  "min": 1.8,
+  "logo": "https://dev-api.u-pay.com/static/services/cp_livu.png",
+  "name": "LovU",
+  "sort": 0,
+  "color": "white",
+  "dscrt": null,
+  "parameters": [
+    {
+      "mask": "",
+      "name": "account",
+      "eg_exp": "",
+      "direction": 1,
+      "description": "",
+      "is_required": 1,
+      "display_name": "Product",
+      "default_value": "",
+      "allowed_values": [
+        {
+          "name": "Coin 360",
+          "value": "1.80"
+        },
+        {
+          "name": "Coin 650",
+          "value": "2.90"
+        },
+        {
+          "name": "Coin 1250",
+          "value": "5.10"
+        },
+        {
+          "name": "Coin 2500",
+          "value": "9.40"
+        },
+        {
+          "name": "Coin 5000",
+          "value": "17.50"
+        },
+        {
+          "name": "Coin 10000",
+          "value": "33.50"
+        },
+        {
+          "name": "Coin 20000",
+          "value": "64.50"
+        },
+        {
+          "name": "Coin 50000",
+          "value": "156.00"
+        }
+      ]
+    },
+    {
+      "mask": "",
+      "name": "custname",
+      "eg_exp": "",
+      "direction": 2,
+      "description": "",
+      "is_required": 0,
+      "display_name": "User Name",
+      "default_value": "",
+      "allowed_values": []
+    },
+    {
+      "mask": "",
+      "name": "user_id",
+      "eg_exp": "",
+      "direction": 1,
+      "description": "",
+      "is_required": 1,
+      "display_name": "User ID",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": null
+}
+{
+  "id": "UPAY_DEPOSIT",
+  "max": 100,
+  "min": 1,
+  "logo": "https://dev-api.u-pay.com/static/services/upay.png",
+  "name": "Upay",
+  "sort": null,
+  "color": "white",
+  "dscrt": null,
+  "parameters": [
+    {
+      "mask": "[00009999999]",
+      "name": "account",
+      "eg_exp": "",
+      "direction": 1,
+      "description": "Input wallet ID",
+      "is_required": 1,
+      "display_name": "Wallet ID",
+      "default_value": "",
+      "allowed_values": []
+    }
+  ],
+  "currency_id": "USD",
+  "instruction": null
+}
+}

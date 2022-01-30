@@ -1,0 +1,131 @@
+<div class="enter-payment-info">
+
+    <check if="{{ @_GET.vertical }}">
+        <false>
+    <div class="enter-payment-info__left">
+        <!--leave it empty-->
+    </div>
+        </false>
+    </check>
+
+    <!--enter area-->
+    <div class="enter-area">
+        <div class="insert-money__frame">
+            <div class="personal-account">{{ @data.params.account }}</div>
+
+            <div class="amount-table">
+                <div class="row main-row">
+                    <div class="cell">{{ @inserted_amount }}</div>
+                    <div class="cell money">{{ @data.money.money }}</div>
+                </div>
+                <div class="row">
+                    <div class="cell">{{ @entered_amount }}</div>
+                    <div class="cell sum">{{ @data.money.sum }}</div>
+                </div>
+                <div class="row">
+                    <div class="cell">{{ @service_charge }}</div>
+                    <div class="cell commission">{{ @data.money.commission }}</div>
+                </div>
+            </div>
+
+            <div class="service-charge-icon">
+                <div class="icon">%</div>
+                <div class="title">{{ @service_charge }}</div>
+            </div>
+
+            <div class="message status_text" style="position: relative">
+                <div class="loader"><div class="loader__element"></div></div>
+                <p>{{ @data.status_text }}</p>
+            </div>
+
+            <div class="warning">
+                <div class="icon">!</div>
+                <div class="title">
+                    <div>{{ @service_warning_head }}</div>
+                    <div>{{ @service_warning_text }}</div>
+                </div>
+            </div>
+
+            <p class="text-center pt-10">{{ @service_accepted }}</p>
+        </div>
+    </div>
+
+    <div class="enter-payment-info__right">
+
+    </div>
+
+</div>
+</div>
+
+<script>
+    var refreshInterval = 1000;
+    var errorInterval = 10000;
+    var httpTimeout = 10000;
+    function poll() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', window.location+"&json=1");
+        xhr.timeout = httpTimeout;
+        xhr.send();
+        xhr.onload = function() {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                document.querySelector(".status_text p").innerHTML = "ERROR "+xhr.status+": "+xhr.statusText+", retrying in 10 seconds";
+                document.querySelector(".status_text .loader").className = 'loader off';
+                setTimeout(poll, errorInterval);
+            } else { // если всё прошло гладко, выводим результат
+                console.log(xhr.response);
+                var resp = JSON.parse(xhr.response);
+
+                if (resp.status == 'OPERATION_PARAMS_FAILED') {
+                    history.back();
+                    return;
+                }
+
+                document.querySelector(".status_text p").innerHTML = resp.status_text;
+                document.querySelector(".money").innerHTML = resp.money.money;
+                document.querySelector(".sum").innerHTML = resp.money.sum;
+                document.querySelector(".commission").innerHTML = resp.money.commission;
+                document.querySelector(".status_text .loader").className = 'loader off';
+                setTimeout(poll, refreshInterval);
+            }
+        };
+        xhr.timeout = function() {
+            document.querySelector(".status_text p").innerHTML = "Request error, retrying in 10 seconds";
+            document.querySelector(".status_text .loader").className = 'loader off';
+            setTimeout(poll, errorInterval);
+            return false;
+        };
+        xhr.onerror = function() {
+            document.querySelector(".status_text p").innerHTML = "Request error, retrying in 10 seconds";
+            document.querySelector(".status_text .loader").className = 'loader off';
+            setTimeout(poll, errorInterval);
+            return false;
+        };
+        document.querySelector(".status_text .loader").className = 'loader on';
+    }
+
+    setTimeout(poll, refreshInterval)
+
+</script>
+
+<div class="tools-panel">
+    <div class="tools-panel__left">
+        <!--cancel-->
+        <button class="tool-button menu-color" onclick="history.back(); return false;">
+            <img src="/ui/img/arrow-back-icon.svg" alt="money">
+            <span class="title">{{ @back }}</span>
+        </button>
+
+        <!--menu-->
+        <button class="tool-button menu-color" data-href="/?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}">
+            <img src="/ui/img/menu-icon.svg" alt="money">
+            <span class="title">{{ @menu }}</span>
+        </button>
+    </div>
+</div>
+<!--    <div class="tools-panel__right">-->
+        <!--continue-->
+<!--        <button class="tool-button confirm-color">-->
+<!--            <img src="/ui/img/arrow-forward-icon.svg" alt="money">-->
+<!--            <span class="title">Continue</span>-->
+<!--        </button>-->
+<!--    </div>-->

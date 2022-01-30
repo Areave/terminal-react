@@ -1,0 +1,74 @@
+<!--payment purpose-->
+<div class="payment-purpose">
+    <div class="title">Your payment</div>
+    <button class="payment-button button-centered {{ @svc.color }}" disabled><img
+                src="{{ @svc.logo }}" alt="{{ @svc.name }}"></button>
+</div>
+
+<div class="enter-payment-info">
+    <!--enter area-->
+    <div class="enter-area">
+        <repeat group="{{ @svc.parameters }}" value="{{ @s }}">
+            <div class="input-title">{{ @s.display_name}}</div>
+            <check if="{{ @s.allowed_values }}">
+                <false>
+                <div class="mask-input" data-placeholder="{{@s.mask}}" data-name="{{@s.name}}"></div>
+                </false>
+                <true>
+                    <div class="mask-input dropdown" data-placeholder="{{@s.mask}}" data-name="{{@s.name}}">
+                        <span class="text">-- Click to select --</span>
+                        <div>
+                            <repeat group="{{ @s.allowed_values }}" value="{{ @v }}">
+                                <div class="value" data-value="{{@v.value}}">{{@v.name}}</div>
+                            </repeat>
+                        </div>
+                    </div>
+                </true>
+            </check>
+        </repeat>
+
+
+        <div class="digits-grid">
+            <button class="digit-button" data-key="1"><span>1</span></button>
+            <button class="digit-button" data-key="2"><span>2</span></button>
+            <button class="digit-button" data-key="3"><span>3</span></button>
+            <button class="digit-button" data-key="4"><span>4</span></button>
+            <button class="digit-button" data-key="5"><span>5</span></button>
+            <button class="digit-button" data-key="6"><span>6</span></button>
+            <button class="digit-button" data-key="7"><span>7</span></button>
+            <button class="digit-button" data-key="8"><span>8</span></button>
+            <button class="digit-button" data-key="9"><span>9</span></button>
+            <button class="digit-button green" data-key="C"><span>C</span></button>
+            <button class="digit-button" data-key="0"><span>0</span></button>
+            <!--            <button class="digit-button"><span>.</span></button>-->
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="tools-panel">
+    <div class="tools-panel__left">
+        <!--cancel-->
+        <button class="tool-button menu-color" onclick="history.back(); return false;">
+            <img src="/ui/img/arrow-back-icon.svg" alt="money">
+            <span class="title">Back</span>
+        </button>
+
+        <!--menu-->
+        <button class="tool-button menu-color" data-href="/?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}">
+            <img src="/ui/img/menu-icon.svg" alt="money">
+            <span class="title">Menu</span>
+        </button>
+    </div>
+    <div class="tools-panel__right">
+        <!--continue-->
+        <button class="tool-button confirm-color continue" style="display: none;">
+            <img src="/ui/img/arrow-forward-icon.svg" alt="money">
+            <span class="title">Continue</span>
+        </button>
+    </div>
+
+    <script>
+        var continueLink = "/send_payment?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}&pay_id={{ @_GET.pay_id }}&params=";
+    </script>
+    <script src="/ui/js/payment_ui.js"></script>

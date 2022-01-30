@@ -1,0 +1,34 @@
+<div class="buttons-grid">
+
+    <!--buttons row-->
+    <div class="buttons-grid__row">
+        <repeat group="{{ @svc }}" value="{{ @s }}">
+            <div class="buttons-grid__col buttons-grid__col-3">
+                <button class="payment-button {{ @s.color }}"
+                        data-href="/inner?{{ http_build_query(['id' => $s['id'] ] + $_GET) }}">
+                    <img src="{{@s.logo}}" alt="internet">
+                    <span class="title">{{ @s.name }}</span>
+                </button>
+            </div>
+        </repeat>
+    </div>
+
+</div>
+</div>
+
+<div class="tools-panel">
+    <div class="tools-panel__left">
+        <!--cancel-->
+        <button class="tool-button menu-color" onclick="history.back(); return false;">
+            <img src="/ui/img/arrow-back-icon.svg" alt="money">
+            <span class="title">{{ @back }}</span>
+        </button>
+
+        <!--menu-->
+        <button class="tool-button menu-color"
+                data-href="/?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}">
+            <img src="/ui/img/menu-icon.svg" alt="money">
+            <span class="title">{{ @menu }}</span>
+        </button>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 /.idea/
 /.git/
 /www/
+.env
 /node_modules/

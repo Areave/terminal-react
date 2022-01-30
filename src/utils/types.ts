@@ -6,6 +6,10 @@ export namespace Types {
         readonly name: string
     }
 
+    export interface MainState {
+        token: string
+    }
+
     export interface ErrorState {
         isError: boolean,
         errorType: number

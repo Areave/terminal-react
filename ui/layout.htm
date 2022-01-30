@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>U-PAY. YOUR NEW LIFESTYLE BEGINS WITH U-PAY</title>
+	<link rel="stylesheet" href="/ui/css/style{{ @mode }}.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="/ui/js/jquery.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            $("button").each(function (_, b) {
+               if ($(b).data("href")) {
+                   var url = $(b).data("href");
+                   b.onclick = function() {
+                       window.location = url;
+                       return false;
+                   }
+               }
+           })
+        });
+    </script>
+    <check if="{{ @lang == 'CH' }}">
+        <true>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var counter = 0;
+                    var int;
+                    $('.lang.ch')[0].onclick = function () {
+                        counter++;
+                        if (counter == 5) {
+                            console.log('active');
+                            $('.lang.ca')[0].onclick = function () {
+                                window.location = '/service?token_key={{ @_GET.token_key }}';
+                                return false;
+                            }
+                        }
+                        clearTimeout(int);
+                        int = setTimeout(function() {
+                            counter = 0;
+                            console.log('deactive');
+                            $('.lang.ca')[0].onclick = function () {
+                                window.location = $(this).data("href");
+                                return false;
+                            }
+                        }, 3000);
+                    }
+                });
+            </script>
+        </true>
+    </check>
+    <script>
+
+    </script>
+</head>
+<body>
+<header>
+	<div class="container">
+		<div class="header-inner">
+			<div class="logotype-area">
+				<div class="logotype">
+					<img src="/ui/img/logotypes/u-pay-text-logo.svg" alt="u-pay">
+				</div>
+				<div class="logotype-phrase">
+					{{ @logo_phrase | raw }}
+				</div>
+			</div>
+
+			<div class="switch-language">
+				<!--Cambodia-->
+				<button class="lang ca" data-href="?{{ http_build_query(['lang' => 'KH'] + $_GET) }}">
+					<span class="lang-flag"><img src="/ui/img/flag-cambodia.svg" alt="cambodia"></span>
+					<span class="title">ប្រទេសកម្ពុជា</span>
+				</button>
+				<!--Eng-->
+				<button class="lang" data-href="?{{ http_build_query(['lang' => 'EN'] + $_GET) }}">
+					<span class="lang-flag"><img src="/ui/img/flag-uk.svg" alt="english"></span>
+					<span class="title">English</span>
+				</button>
+				<!--China-->
+				<button class="lang ch" data-href="?{{ http_build_query(['lang' => 'CH'] + $_GET) }}">
+					<span class="lang-flag"><img src="/ui/img/flag-china.svg" alt="chinese"></span>
+					<span class="title">中国人</span>
+				</button>
+			</div>
+
+
+			<div class="phones-area">
+				<div class="phones">
+                    {{ @hotline }}: <br>
+					096 815 7388 <br>
+					096 466 3333
+				</div>
+				<div class="help-icon">
+					<img src="/ui/img/help-icon.svg" alt="chinese">
+					<div class="title">info</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</header>
+
+<main class="main">
+	<div class="container">
+        <include href="{{ @content }}" />
+    </div>
+</main>
+
+
+<footer>
+
+</footer>
+</body>
+</html>

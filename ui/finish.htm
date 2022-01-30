@@ -1,0 +1,27 @@
+	<div class="container">
+		<div class="confirm-customer-details">
+			<!--customer details-->
+			<div class="details-frame">
+				<div class="title">
+					<span class="bold">{{ @msg }} </span>
+				</div>
+				<p></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="tools-panel">
+		<div class="tools-panel__left">
+			<!--menu-->
+			<button class="tool-button menu-color" data-href="/?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}">
+				<img src="/ui/img/menu-icon.svg" alt="money">
+				<span class="title">{{ @menu }}</span>
+			</button>
+		</div>
+	</div>
+
+	<script>
+		setTimeout(function() {
+			window.location = "/?token_key={{ @_GET.token_key }}&vertical={{ @_GET.vertical }}";
+		}, 7000);
+	</script>

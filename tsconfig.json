@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "sourceMap": true,
     "outDir": "./www/js",
     "noImplicitAny": true,
@@ -8,6 +9,7 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+  },
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx"]
 }
