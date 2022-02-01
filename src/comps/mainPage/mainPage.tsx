@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {LangContext} from "../app/app";
 import apiRequest from "../../utils/apiRequest";
-import {useNavigate} from 'react-router-dom'
+import {BrowserRouter, useNavigate} from 'react-router-dom'
 
 const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
     const context = useContext(LangContext);
@@ -12,9 +12,11 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
 
 
 
-    console.log(frontline);
+    // console.log(frontline);
     if (!frontline) return null;
-    return <div className="buttons-grid">
+    return <div className="main">
+        <div className="container">
+        <div className="buttons-grid">
         <div className="buttons-grid__row">
             {frontline && frontline[0].map((data: any, index: number) => {
                     // let params: string = '';
@@ -78,6 +80,9 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
             )}
         </div>
     </div>
+    </div>
+    </div>
+
 };
 
 export default MainPage;

@@ -8,7 +8,7 @@ import moneyIcon from '../../img/arrow-forward-icon.svg'
 import $ from 'jquery'
 import './payment_ui.js'
 
-const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
+const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
 
     const urlParam = new URLSearchParams(window.location.search);
     const context = useContext(LangContext);
@@ -20,7 +20,8 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
 
     const [thisPayment, setThisPayment] = useState(null);
 
-    let svc = thisPayment;
+    // let svc = thisPayment;
+    let svc = paymentProps[pay_id];
 
     console.log('render payment')
     console.log(svc, paymentProps);
@@ -40,16 +41,16 @@ const PaymentPage: React.FC<any> = ({paymentProps, setParams}) => {
 //     }
 // }, [paymentProps]);
 
-useEffect(()=>{
-    if (paymentProps) {
-        if(paymentProps[pay_id]) {
-            console.log('gocha! custom set!!!')
-            setThisPayment(paymentProps[pay_id])
-        } else {
-
-        }
-    }
-}, [paymentProps]);
+// useEffect(()=>{
+//     if (paymentProps) {
+//         if(paymentProps[pay_id]) {
+//             console.log('gocha! custom set!!!')
+//             setThisPayment(paymentProps[pay_id])
+//         } else {
+//
+//         }
+//     }
+// }, [paymentProps]);
 
 
     // @ts-ignore
@@ -196,22 +197,66 @@ useEffect(()=>{
             // @ts-ignore
             console.log('params', params);
             // @ts-ignore
-            setParams(params);
+            // setParams(params);
             var continueLink = '/send_payment?token_key=' + token + '&pay_id=' + pay_id + '&params=';
             // @ts-ignore
             // window.location = continueLink + encodeURIComponent(JSON.stringify(params));
-            navigate(continueLink + encodeURIComponent(JSON.stringify(params)));
+            // navigate(continueLink + encodeURIComponent(JSON.stringify(params)));
+            sendPayment(params)
         }
     }
 
-    useEffect(()=>{
-        if(svc) {
+    useEffect(() => {
+        if (svc) {
             console.log('svc Hook', svc)
             jqueryCode();
             // console.log(svc.parameters)
 
         }
     }, [thisPayment]);
+
+
+    const sendPayment = (params: any) => {
+        const HOST = process.env.REACT_APP_API_HOST;
+        // const context = useContext(LangContext);
+        const {lang, langKit, paymentProps, setPaymentProps} = context;
+
+        // let svc = null;
+        // let token: string;
+        // let pay_id: string;
+        // const navigate = useNavigate();
+
+        // const urlParam = new URLSearchParams(window.location.search);
+        // const pay_id = urlParam.get('pay_id');
+        // const token = urlParam.get('token_key');
+        apiService.paymentRequest(lang, token, pay_id).then(data => {
+            // console.log(params);
+            apiService.trxRequest(token, {
+                service: pay_id,
+                url_ok: HOST + "/ok?transction_code=%transaction_code%&vertical=0",
+                url_fail: HOST + "/fail?transction_code=%transaction_code%&vertical=0",
+                currency: data.currency_id,
+                sum: 0,
+                redirect: false,
+                params: params,
+                goods: []
+            }).then(res => {
+                console.log(res)
+                if (res.data.status === 'OK') {
+                    const trans_code = res.data.data.transaction_code;
+                    console.log('transaction code', trans_code)
+                    apiService.insertCoinRequest(token, trans_code).then(data => {
+                        console.log(data)
+                        setCoinProps(data)
+                    }).then(() => {
+                        const path = '/insert_coin?token_key=' + token + '&trx=' + res.data.data.transaction_code + '&vertical=0'
+                        navigate(path)
+                    })
+
+                }
+            })
+        })
+    }
 
 
 // useEffect(()=>{
@@ -224,95 +269,97 @@ useEffect(()=>{
 // });
 
 
-
-    if(!svc) return null;
-
+    if (!svc) return null;
 
 
-    return <>
-        <div className="enter-payment-info">
+    return <div className="main">
+        <div className="container">
+            <div className="enter-payment-info">
 
-            <div className="enter-payment-info__left">
-                {svc && svc.parameters.map((paramsObj: { display_name: string, is_required: number }, index: number) => {
+                <div className="enter-payment-info__left">
+                    {svc && svc.parameters.map((paramsObj: { display_name: string, is_required: number }, index: number) => {
+                            if (paramsObj.is_required === 0) {
+                                return null;
+                            } else {
+                                return <div key={index} className="input-title">{paramsObj.display_name}</div>
+                            }
+                        }
+                    )}
+                    <div className="payment-purpose">
+                        <div className="title">Your payment</div>
+                        <button className={`payment-button button-centered ${svc.color}`} disabled>
+                            <img src={svc.logo} alt={svc.name}/></button>
+                    </div>
+                </div>
+
+                <div className="enter-area">
+                    {svc && svc.parameters.map((paramsObj: any, index: number) => {
                         if (paramsObj.is_required === 0) {
                             return null;
                         } else {
-                            return <div key={index} className="input-title">{paramsObj.display_name}</div>
-                        }
-                    }
-                )}
-                <div className="payment-purpose">
-                    <div className="title">Your payment</div>
-                    <button className={`payment-button button-centered ${svc.color}`} disabled>
-                        <img src={svc.logo} alt={svc.name}/></button>
-                </div>
-            </div>
-
-            <div className="enter-area">
-                {svc && svc.parameters.map((paramsObj: any, index: number) => {
-                    if (paramsObj.is_required === 0) {
-                        return null;
-                    } else {
-                        if (!!paramsObj.allowed_values.length) {
-                            return <div key={index} className="mask-input dropdown" data-placeholder={paramsObj.mask}
-                                        data-name={paramsObj.name}>
-                                <span className="text">-- Click to select --</span>
-                                <div key={index}>
-                                    {paramsObj.allowed_values.map((value: any) => {
-                                        return <div className="value" data-value={value.value}>{value.name}</div>
-                                    })}
+                            if (!!paramsObj.allowed_values.length) {
+                                return <div key={index} className="mask-input dropdown"
+                                            data-placeholder={paramsObj.mask}
+                                            data-name={paramsObj.name}>
+                                    <span className="text">-- Click to select --</span>
+                                    <div key={index}>
+                                        {paramsObj.allowed_values.map((value: any) => {
+                                            return <div className="value" data-value={value.value}>{value.name}</div>
+                                        })}
+                                    </div>
                                 </div>
-                            </div>
-                        } else {
-                            return <div key={index} className="mask-input" data-placeholder={paramsObj.mask}
-                                        data-name={paramsObj.name}></div>
+                            } else {
+                                return <div key={index} className="mask-input" data-placeholder={paramsObj.mask}
+                                            data-name={paramsObj.name}></div>
+                            }
                         }
-                    }
-                })}
-                <div className="digits-grid">
-                    <button className="digit-button" data-key="1"><span>1</span></button>
-                    <button className="digit-button" data-key="2"><span>2</span></button>
-                    <button className="digit-button" data-key="3"><span>3</span></button>
-                    <button className="digit-button" data-key="4"><span>4</span></button>
-                    <button className="digit-button" data-key="5"><span>5</span></button>
-                    <button className="digit-button" data-key="6"><span>6</span></button>
-                    <button className="digit-button" data-key="7"><span>7</span></button>
-                    <button className="digit-button" data-key="8"><span>8</span></button>
-                    <button className="digit-button" data-key="9"><span>9</span></button>
-                    <button className="digit-button green" data-key="C"><span>C</span></button>
-                    <button className="digit-button" data-key="0"><span>0</span></button>
-                    {/*<button class="digit-button"><span>.</span></button>*/}
+                    })}
+                    <div className="digits-grid">
+                        <button className="digit-button" data-key="1"><span>1</span></button>
+                        <button className="digit-button" data-key="2"><span>2</span></button>
+                        <button className="digit-button" data-key="3"><span>3</span></button>
+                        <button className="digit-button" data-key="4"><span>4</span></button>
+                        <button className="digit-button" data-key="5"><span>5</span></button>
+                        <button className="digit-button" data-key="6"><span>6</span></button>
+                        <button className="digit-button" data-key="7"><span>7</span></button>
+                        <button className="digit-button" data-key="8"><span>8</span></button>
+                        <button className="digit-button" data-key="9"><span>9</span></button>
+                        <button className="digit-button green" data-key="C"><span>C</span></button>
+                        <button className="digit-button" data-key="0"><span>0</span></button>
+                        {/*<button class="digit-button"><span>.</span></button>*/}
+                    </div>
                 </div>
+
             </div>
-            <div className="tools-panel">
-                <div className="tools-panel__left">
-                    <button className="tool-button menu-color" onClick={() => {
-                        navigate(-1)
-                    }}>
-                        <img src={backIcon} alt="money"/>
-                        <span className="title">Back</span>
-                    </button>
-                    <button className="tool-button menu-color"
-                            onClick={() => navigate('/' + '?token_key=' + token)}>
-                        <img src={menuIcon} alt="money"/>
-                        <span className="title">Menu</span>
-                    </button>
+        </div>
+        <div className="tools-panel">
+            <div className="tools-panel__left">
+                <button className="tool-button menu-color" onClick={() => {
+                    navigate(-1)
+                }}>
+                    <img src={backIcon} alt="money"/>
+                    <span className="title">Back</span>
+                </button>
+                <button className="tool-button menu-color"
+                        onClick={() => navigate('/' + '?token_key=' + token)}>
+                    <img src={menuIcon} alt="money"/>
+                    <span className="title">Menu</span>
+                </button>
 
-                </div>
+            </div>
 
-                <div className="tools-panel__right">
-                    <button className="tool-button confirm-color continue" style={{display: 'none'}}>
-                        <img src={moneyIcon} alt="money"/>
-                        <span className="title">Continue</span>
-                    </button>
-                </div>
+            <div className="tools-panel__right">
+                <button className="tool-button confirm-color continue" style={{display: 'none'}}>
+                    <img src={moneyIcon} alt="money"/>
+                    <span className="title">Continue</span>
+                </button>
             </div>
         </div>
         <script>
 
         </script>
         <script src="./payment_ui.js"></script>
-    </>
+    </div>
 };
 
 export default PaymentPage;

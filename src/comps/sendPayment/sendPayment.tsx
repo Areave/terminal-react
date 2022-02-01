@@ -22,13 +22,13 @@ const SendPaymentPage: React.FC<any> = ({setCoinProps, params}) => {
     pay_id = urlParam.get('pay_id');
     token = urlParam.get('token_key');
     apiRequest.paymentRequest(lang, token, pay_id).then(data => {
-        console.log(data);
+        console.log(params);
         apiRequest.trxRequest(token, {
             service: pay_id,
             url_ok: HOST + "/ok?transction_code=%transaction_code%&vertical=0",
             url_fail: HOST + "/fail?transction_code=%transaction_code%&vertical=0",
             currency: data.currency_id,
-            sum: 1, // ????????????????????????????????????
+            sum: 0, // ????????????????????????????????????
             redirect: false,
             params: params,
             goods: []

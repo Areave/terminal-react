@@ -35,7 +35,7 @@ const App: React.FC<any> = (props) => {
     let isVertical: string;
     let terminalID: string;
 
-    console.log('start app', paymentProps);
+    // console.log('start app', paymentProps);
 
     if (urlParam.has('vertical')) {
         isVertical = urlParam.get('vertical');
@@ -46,12 +46,12 @@ const App: React.FC<any> = (props) => {
 
     if (!token) {
         if (urlParam.has('token_key')) {
-            console.log('set token')
+            // console.log('set token')
             setToken(urlParam.get('token_key'));
         } else {
-            console.log('ask token')
+            // console.log('ask token')
             apiService.authRequest.then(sid => {
-                console.log('set token', sid)
+                // console.log('set token', sid)
                 setToken(sid);
 
             });
@@ -152,31 +152,23 @@ const App: React.FC<any> = (props) => {
         }
     }, [frontline]);
 
-    return <>
-        <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps, isVertical}}>
-            <BrowserRouter>
-                <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
-                <div className="main">
-                    <div className="container">
-                        <Routes>
-                            <Route path='/'
-                                   element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
-                            <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
-                            <Route path='/payment'
-                                   element={<PaymentPage paymentProps={paymentProps} setParams={setParams}/>}/>
-                            <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
-                            <Route path='/service' element={<ServicePage props={props}/>}/>
-                            <Route path='/send_payment'
-                                   element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>
-                            <Route path='/insert_coin' element={<InsertCoinPage coinProps={coinProps}/>}/>
-                            <Route path='/*' element={<TestComp/>}/>
-                        </Routes>
+    return <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps, isVertical}}>
+        <BrowserRouter>
+            <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
+            <Routes>
+                <Route path='/' element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
+                <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
+                <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
+                <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setCoinProps={setCoinProps}/>}/>
+                <Route path='/service' element={<ServicePage props={props}/>}/>
+                <Route path='/send_payment' element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>
+                <Route path='/insert_coin' element={<InsertCoinPage coinProps={coinProps}/>}/>
+                <Route path='/*' element={<TestComp/>}/>
+            </Routes>
 
-                    </div>
-                </div>
-            </BrowserRouter>
-        </LangContext.Provider>
-    </>
+        </BrowserRouter>
+    </LangContext.Provider>
+
 };
 
 

@@ -85,7 +85,7 @@ const getApiServiceInstance = () => {
     }
 
     const insertCoinRequest = (token: string, transaction_code: string)=>{
-        return apiRequest('get_kiosk_transaction_status', token)
+        return apiRequest('get_kiosk_transaction_status', token, {transaction_code})
     };
 
     const openTerminalRequest = (token: string)=>{

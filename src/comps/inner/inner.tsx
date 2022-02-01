@@ -16,11 +16,13 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
 
     const urlParam = new URLSearchParams(window.location.search);
     let svc = null;
-    let token: string = urlParam.get('token_key');;
-    let id: string = urlParam.get('id');;
+    let token: string = urlParam.get('token_key');
+    ;
+    let id: string = urlParam.get('id');
+    ;
     const navigate = useNavigate();
 
-    if(!innerProps) return null;
+    if (!innerProps) return null;
 
     if (innerProps) {
         // if (innerProps[id]) {
@@ -30,15 +32,15 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
         // }
         svc = innerProps[id];
 
-        if(!svc) return null;
+        if (!svc) return null;
 
         // console.log(svc)
         let extraPaymentIds: Array<any> = [];
 
 
         Object.keys(svc).forEach(pay_id => {
-            if(paymentProps) {
-                if(!paymentProps[pay_id]) {
+            if (paymentProps) {
+                if (!paymentProps[pay_id]) {
                     extraPaymentIds.push(pay_id);
                 } else if (paymentProps[pay_id]) {
                     // console.log('here!', pay_id)
@@ -53,7 +55,7 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
             apiService.paymentRequest(lang, token, pay_id,).then(res => {
                 extraPaymentProps = {...extraPaymentProps, [pay_id]: res}
 
-                if(Object.keys(extraPaymentProps).length === extraPaymentIds.length) {
+                if (Object.keys(extraPaymentProps).length === extraPaymentIds.length) {
                     // console.log('set paymentsProps! add', extraPaymentProps, paymentProps)
                     setPaymentProps({...paymentProps, ...extraPaymentProps})
                 }
@@ -63,38 +65,39 @@ const InnerPage: React.FC<any> = ({innerProps}) => {
     }
 
 
-
-
-    return <>
-        <div>
-            <div className="buttons-grid">
-                <div className="buttons-grid__row">
-                    {svc && Object.values(svc).map((obj: { color: string, id: number, name: string, logo: string }, index: number) => {
-                        return <div key={index} className="buttons-grid__col buttons-grid__col-6">
-                            <button className={'payment-button button-centered ' + obj.color}
-                                    onClick={() => navigate('/payment?pay_id=' + obj.id + '&id=' + id + '&vertical=' + isVertical + '&token_key=' + token)}>
-                                <img src={obj.logo} alt={obj.name}/></button>
-                        </div>
-                    })}
+    return <div className="main">
+        <div className="container">
+            <div>
+                <div className="buttons-grid">
+                    <div className="buttons-grid__row">
+                        {svc && Object.values(svc).map((obj: { color: string, id: number, name: string, logo: string }, index: number) => {
+                            return <div key={index} className="buttons-grid__col buttons-grid__col-6">
+                                <button className={'payment-button button-centered ' + obj.color}
+                                        onClick={() => navigate('/payment?pay_id=' + obj.id + '&id=' + id + '&vertical=' + isVertical + '&token_key=' + token)}>
+                                    <img src={obj.logo} alt={obj.name}/></button>
+                            </div>
+                        })}
+                    </div>
+                </div>
+            </div>
+            <div className="tools-panel">
+                <div className="tools-panel__left">
+                    <button className="tool-button menu-color" onClick={() => {
+                        navigate(-1)
+                    }}>
+                        <img src={backIcon} alt="money"/>
+                        <span className="title">{langKit ? langKit.back : 'back'}</span>
+                    </button>
+                    <button className="tool-button menu-color"
+                            onClick={() => navigate('/' + '?token_key=' + token)}>
+                        <img src={menuIcon} alt="money"/>
+                        <span className="title">{langKit ? langKit.menu : 'menu'}</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div className="tools-panel">
-            <div className="tools-panel__left">
-                <button className="tool-button menu-color" onClick={() => {
-                    navigate(-1)
-                }}>
-                    <img src={backIcon} alt="money"/>
-                    <span className="title">{langKit ? langKit.back : 'back'}</span>
-                </button>
-                <button className="tool-button menu-color"
-                        onClick={() => navigate('/' + '?token_key=' + token)}>
-                    <img src={menuIcon} alt="money"/>
-                    <span className="title">{langKit ? langKit.menu : 'menu'}</span>
-                </button>
-            </div>
-        </div>
-    </>
+    </div>
+
 };
 
 export default InnerPage;
