@@ -6,7 +6,6 @@ import backIcon from '../../img/arrow-back-icon.svg'
 import menuIcon from '../../img/menu-icon.svg'
 import moneyIcon from '../../img/arrow-forward-icon.svg'
 import $ from 'jquery'
-import './payment_ui.js'
 
 const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
 
@@ -358,7 +357,7 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
         <script>
 
         </script>
-        <script src="./payment_ui.js"></script>
+        {/*<script src="./payment_ui.js"></script>*/}
     </div>
 };
 

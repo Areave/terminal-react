@@ -18,7 +18,6 @@ const Header: React.FC<any> = ({logo_phrase, hotline}) => {
     const navigate = useNavigate();
     const {lang, setLang} = useContext(LangContext);
     let count = 0;
-    console.log('render Header');
     let timeout: any;
 
     const counter = ()=>{

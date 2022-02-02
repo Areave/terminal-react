@@ -8,23 +8,12 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
     const {token,langsArStatic, isVertical} = context;
     const navigate = useNavigate();
 
-
-
-
-
-    // console.log(frontline);
     if (!frontline) return null;
     return <div className="main">
         <div className="container">
         <div className="buttons-grid">
         <div className="buttons-grid__row">
             {frontline && frontline[0].map((data: any, index: number) => {
-                    // let params: string = '';
-                    // if (data.params) {
-                    //     params = '' + Object.entries(data.params).map(([key, value]) => key + '=' + value + '&');
-                    // } else if (data.id) {
-                    //     params = 'id=' + data.id +'&';
-                    // }
                     const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
                     const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
                     return <div key={index} className="buttons-grid__col buttons-grid__col-3">

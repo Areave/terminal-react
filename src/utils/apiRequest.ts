@@ -19,7 +19,8 @@ const getApiServiceInstance = () => {
     }
 
     const authRequest = apiRequest('make_auth', '0', {login: "201_xkj", password: "fwyayh"})
-        .then(res => res.data.data.session_key);
+            .then(res => res.data.data.session_key);
+
 
     const langsRequest = (lang: string, sid: string) => {
         return axios.post(endPoint + 'get_kiosk_translation' + '?sid=' + sid,
@@ -84,17 +85,29 @@ const getApiServiceInstance = () => {
         return axios.post(endPoint + 'open_kiosk_transaction' + '?sid=' + token, data, axiosConfig)
     }
 
-    const insertCoinRequest = (token: string, transaction_code: string)=>{
+    const insertCoinRequest = (token: string, transaction_code: string) => {
         return apiRequest('get_kiosk_transaction_status', token, {transaction_code})
     };
 
-    const openTerminalRequest = (token: string)=>{
-        return apiRequest('open_terminal_collection?', token)
+    const statusRequest = (lang: string, token: string) => {
+        return apiRequest('get_kiosk_status', token, {
+            language: lang
+        })
     };
 
 
-
-    return {authRequest, langsRequest, frontlineRequest, svcRequest, paymentRequest, otherRequest, serviceRequest, trxRequest, insertCoinRequest, openTerminalRequest}
+    return {
+        authRequest,
+        langsRequest,
+        frontlineRequest,
+        svcRequest,
+        paymentRequest,
+        otherRequest,
+        serviceRequest,
+        trxRequest,
+        insertCoinRequest,
+        statusRequest
+    }
 }
 
 export default getApiServiceInstance();
