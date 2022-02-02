@@ -118,16 +118,14 @@ const App: React.FC<any> = (props) => {
                 if (Object.keys(tempOtherProps).length === otherIds.length) {
                     let paymentProps = {};
                     const otherArrayOfObjects = Object.values(tempOtherProps)
-                    const a = otherArrayOfObjects[0];
+                    const otherArray = otherArrayOfObjects[0];
                     // @ts-ignore
-                    a.forEach(obj => {
+                    otherArray.forEach(obj => {
                         const services = obj.services
                         if (!services) {
                             return
                         }
-                        ;
                         services.forEach((service: any) => {
-                            console.log(service.id)
                             paymentProps = {...paymentProps, [service.id]: service}
                         })
                         setPaymentProps(paymentProps);
@@ -154,12 +152,12 @@ const App: React.FC<any> = (props) => {
         <BrowserRouter>
             <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
             <Routes>
-                <Route path='/' element={<MainPage fillFrontlineProps={fillFrontlineProps} frontline={frontline}/>}/>
+                <Route path='/' element={<MainPage frontline={frontline}/>}/>
                 <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>
                 <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
                 <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setCoinProps={setCoinProps}/>}/>
                 <Route path='/service' element={<ServicePage props={props}/>}/>
-                <Route path='/send_payment' element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>
+                {/*<Route path='/send_payment' element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>*/}
                 <Route path='/insert_coin' element={<InsertCoinPage coinProps={coinProps}/>}/>
                 <Route path='/*' element={<TestComp/>}/>
             </Routes>

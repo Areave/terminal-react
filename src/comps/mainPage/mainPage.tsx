@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import {LangContext} from "../app/app";
-import apiRequest from "../../utils/apiRequest";
-import {BrowserRouter, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
+import PaymentButton from "../paymentButton/paymentButton";
 
 const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
     const context = useContext(LangContext);
@@ -56,14 +56,9 @@ const MainPage: React.FC<any> = ({frontline, fillFrontlineProps}) => {
         </div>
 
         <div className="buttons-grid__row">
-            {frontline && frontline[3].map((data: any, index: number) => {
-                    const params = data.params ? Object.entries(data.params).map(([key, value]) => key + '=' + value + '&') : '';
-                    const pathToNavigate = '/' + data.page + '?' + params + 'vertical=' + isVertical + '&token_key=' + token;
+            {frontline && frontline[3].map((paymentObject: any, index: number) => {
                     return <div key={index} className="buttons-grid__col buttons-grid__col-6">
-                        <button className={'payment-button button-centered ' + data.color}
-                                onClick={() => navigate(pathToNavigate)}>
-                            <img src={data.logo} alt={data.name}/>
-                        </button>
+                        <PaymentButton paymentObject={paymentObject}/>
                     </div>
                 }
             )}

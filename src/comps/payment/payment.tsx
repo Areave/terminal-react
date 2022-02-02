@@ -19,37 +19,8 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
 
     const [thisPayment, setThisPayment] = useState(null);
 
-    // let svc = thisPayment;
-    let svc = paymentProps[pay_id];
-
-    console.log('render payment')
-    console.log(svc, paymentProps);
 
 
-// useEffect(()=>{
-//     if (paymentProps) {
-//         if(paymentProps[pay_id]) {
-//             console.log('gocha! custom set!!!')
-//             setThisPayment(paymentProps[pay_id])
-//         } else {
-//             apiService.paymentRequest(lang, token, pay_id).then(res => {
-//                 console.log('custom set!!!')
-//                 setThisPayment(res);
-//             });
-//         }
-//     }
-// }, [paymentProps]);
-
-// useEffect(()=>{
-//     if (paymentProps) {
-//         if(paymentProps[pay_id]) {
-//             console.log('gocha! custom set!!!')
-//             setThisPayment(paymentProps[pay_id])
-//         } else {
-//
-//         }
-//     }
-// }, [paymentProps]);
 
 
     // @ts-ignore
@@ -206,28 +177,25 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
     }
 
     useEffect(() => {
+        console.log('svc Hook', svc)
         if (svc) {
-            console.log('svc Hook', svc)
+            console.log('svc Hook inside', svc)
             jqueryCode();
-            // console.log(svc.parameters)
-
         }
-    }, [thisPayment]);
+    }, );
 
+
+    if (!paymentProps || !paymentProps[pay_id]) {
+        console.log('no payment props')
+        return null
+    }
+
+    let svc = paymentProps[pay_id];
 
     const sendPayment = (params: any) => {
         const HOST = process.env.REACT_APP_API_HOST;
-        // const context = useContext(LangContext);
         const {lang, langKit, paymentProps, setPaymentProps} = context;
 
-        // let svc = null;
-        // let token: string;
-        // let pay_id: string;
-        // const navigate = useNavigate();
-
-        // const urlParam = new URLSearchParams(window.location.search);
-        // const pay_id = urlParam.get('pay_id');
-        // const token = urlParam.get('token_key');
         apiService.paymentRequest(lang, token, pay_id).then(data => {
             // console.log(params);
             apiService.trxRequest(token, {
@@ -251,21 +219,10 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                         const path = '/insert_coin?token_key=' + token + '&trx=' + res.data.data.transaction_code + '&vertical=0'
                         navigate(path)
                     })
-
                 }
             })
         })
     }
-
-
-// useEffect(()=>{
-//     if(!svc) {
-//         apiService.paymentRequest(lang, token, pay_id).then(res => {
-//             console.log('custom set!!!')
-//             setPaymentProps({...paymentProps, [pay_id]: res})
-//         });
-//     }
-// });
 
 
     if (!svc) return null;
