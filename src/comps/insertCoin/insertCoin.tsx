@@ -11,28 +11,12 @@ import ToolPanel from "../toolPanel/toolPanel";
 
 
 const InsertCoinPage: React.FC<any> = ({coinProps}) => {
-
-
-    const HOST = process.env.REACT_APP_API_HOST;
     const context = useContext(LangContext);
-    const {lang, langKit, paymentProps, setPaymentProps} = context;
-    // console.log(langKit);
+    const {langKit, isVertical} = context;
     const {data} = coinProps;
-    // const {inserted_amount,entered_amount,service_warning_head, service_warning_text,service_charge,service_accepted} = coinProps;
-    const navigate = useNavigate();
-    const {inserted_amount, entered_amount, service_warning_head, service_warning_text, service_charge, service_accepted} = langKit
+    const {inserted_amount, entered_amount, service_warning_head, service_warning_text, service_charge, service_accepted} = langKit;
 
-    // let svc = null;
-    // let token: string;
-    // let pay_id: string;
-    // const navigate = useNavigate();
-    //
-    const urlParam = new URLSearchParams(window.location.search);
-    // pay_id = urlParam.get('pay_id');
-    const token = urlParam.get('token_key');
-    // const transaction_code = urlParam.get('transaction_code');
-
-    console.log('insertCoinProps', coinProps)
+    console.log('insertCoinProps.data', data)
 
 
     const jqueryCode = () => {
@@ -98,6 +82,9 @@ const InsertCoinPage: React.FC<any> = ({coinProps}) => {
                 <div className="enter-payment-info__left">
                 </div>
 
+                {!!isVertical ||
+                <div className="enter-payment-info__left">
+                </div>}
                 {/*<check if="{{ @_GET.vertical }}">*/}
                 {/*    <false>*/}
                 {/*        <div className="enter-payment-info__left">*/}

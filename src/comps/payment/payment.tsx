@@ -217,11 +217,13 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
 
     useEffect(() => {
         if (svc) {
+            console.log('jq run')
             jqueryCode();
         }
     }, [svc]);
 
-    if (!paymentProps) return <Loader></Loader>;
+    if (!paymentProps || !paymentProps[pay_id]) return <Loader></Loader>;
+
 
     return <div className="main">
         <div className="container">
@@ -254,8 +256,8 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                                             data-name={paramsObj.name}>
                                     <span className="text">-- Click to select --</span>
                                     <div key={index*2}>
-                                        {paramsObj.allowed_values.map((value: any) => {
-                                            return <div className="value" data-value={value.value}>{value.name}</div>
+                                        {paramsObj.allowed_values.map((value: any, index: number) => {
+                                            return <div key={index} className="value" data-value={value.value}>{value.name}</div>
                                         })}
                                     </div>
                                 </div>
@@ -266,15 +268,15 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                         }
                     })}
                     <div className="digits-grid">
-                        <button className="digit-button" data-key="1"><span>1</span></button>
-                        <button className="digit-button" data-key="2"><span>2</span></button>
-                        <button className="digit-button" data-key="3"><span>3</span></button>
-                        <button className="digit-button" data-key="4"><span>4</span></button>
-                        <button className="digit-button" data-key="5"><span>5</span></button>
-                        <button className="digit-button" data-key="6"><span>6</span></button>
-                        <button className="digit-button" data-key="7"><span>7</span></button>
-                        <button className="digit-button" data-key="8"><span>8</span></button>
-                        <button className="digit-button" data-key="9"><span>9</span></button>
+                        <button className="digit-button" key={'1'} data-key="1"><span>1</span></button>
+                        <button className="digit-button" key={'2'} data-key="2"><span>2</span></button>
+                        <button className="digit-button" key={'3'} data-key="3"><span>3</span></button>
+                        <button className="digit-button" key={'4'} data-key="4"><span>4</span></button>
+                        <button className="digit-button" key={'5'} data-key="5"><span>5</span></button>
+                        <button className="digit-button" key={'6'} data-key="6"><span>6</span></button>
+                        <button className="digit-button" key={'7'} data-key="7"><span>7</span></button>
+                        <button className="digit-button" key={'8'} data-key="8"><span>8</span></button>
+                        <button className="digit-button" key={'9'} data-key="9"><span>9</span></button>
                         <button className="digit-button green" data-key="C"><span>C</span></button>
                         <button className="digit-button" data-key="0"><span>0</span></button>
                         {/*<button class="digit-button"><span>.</span></button>*/}

@@ -53,29 +53,30 @@ const App: React.FC<any> = (props) => {
     }, [])
 
     useEffect(() => {
+        console.log('token heere hook')
         if (token) {
             apiService.statusRequest(lang, token).then((data: any) => {
                 if (data.data.data.active) {
                     setKioskNumber(data.data.data.kiosk);
+                    apiService.frontlineRequest(lang, token).then(frontline => {
+                        setFrontline(frontline);
+                        fillFrontlineProps(frontline);
+                        if (!langs) {
+                            fillLangs();
+                        }
+                    })
                 } else {
                     console.log('error!')
                 }
             });
         }
-    }, [token]);
+    }, [token, langKit]);
 
-    useEffect(() => {
-        if (kioskNumber) {
-            apiService.frontlineRequest(lang, token).then(frontline => {
-                setFrontline(frontline);
-                fillLangs();
-                return frontline
-            }).then(frontline => {
-                fillFrontlineProps(frontline);
-            });
+    useEffect(()=>{
+        if (langs) {
+            setLangKit(langs[lang])
         }
-    }, [kioskNumber]);
-
+    }, [langs]);
 
     const fillFrontlineProps = (frontline: any) => {
 
@@ -133,20 +134,29 @@ const App: React.FC<any> = (props) => {
     }
 
     const fillLangs = () => {
-        let langsAr = {};
+        let langsStore = {};
         ['KH', 'EN', 'CH'].forEach(lang => {
             apiService.langsRequest(lang, token).then(res => {
-                langsAr = {...langsAr, [lang]: res};
-                if (Object.keys(langsAr).length === 3) {
-                    setLangs(langsAr);
+                langsStore = {...langsStore, [lang]: res};
+                if (Object.keys(langsStore).length === 3) {
+                    // console.log(langsStore)
+                    setLangs(langsStore);
+
                 }
             });
         });
     }
 
+    const changeLanguage = (lang: string) => {
+        setLang(lang);
+        if (langs) {
+            setLangKit(langs[lang])
+        }
+    }
+
     return <LangContext.Provider value={{lang, setLang, token, langKit, paymentProps, setPaymentProps, isVertical}}>
         <BrowserRouter>
-            <Header logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
+            <Header changeLanguage={changeLanguage} logo_phrase={langKit?.logo_phrase || 'raw'} hotline={langKit?.hotline || 'hotline'}/>
             <Routes>
                 <Route path='/' element={<MainPage frontline={frontline}/>}/>
                 <Route path='/inner' element={<InnerPage innerProps={innerProps}/>}/>

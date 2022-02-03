@@ -30,10 +30,10 @@ const PaymentButton: React.FC<any> = ({parentId, paymentObject}) => {
     const parentIdParam = parentId ? '&id=' + parentId : '';
     const payId = paymentObject.params ? paymentObject.params.pay_id : paymentObject.id;
     const pathToNavigate = '/payment?pay_id=' + payId + parentIdParam + '&vertical=' + isVertical + '&token_key=' + token;
+    const disabled = paymentObject.hasOwnProperty('enabled') ? !paymentObject.enabled : false;
 
     return <button className={'payment-button button-centered ' + paymentObject.color}
-                   // disabled={paymentObject.enabled ? !paymentObject.enabled : false}
-                   disabled={true}
+                   // disabled={disabled}
                    onClick={() => navigate(pathToNavigate)}>
         <img src={paymentObject.logo} alt={paymentObject.name}/></button>
 };

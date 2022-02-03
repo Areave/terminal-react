@@ -11,12 +11,10 @@ import token from "../../utils/token";
 import apiService from "../../utils/apiRequest";
 
 
-const Header: React.FC<any> = ({logo_phrase, hotline}) => {
+const Header: React.FC<any> = ({logo_phrase, hotline, changeLanguage}) => {
 
-    const context = useContext(LangContext);
-    const {token} = context;
     const navigate = useNavigate();
-    const {lang, setLang} = useContext(LangContext);
+    const {lang, setLang, token} = useContext(LangContext);
     let count = 0;
     let timeout: any;
 
@@ -46,18 +44,18 @@ const Header: React.FC<any> = ({logo_phrase, hotline}) => {
                 </div>
                 <div className="switch-language">
                     {/*camboja*/}
-                    <button className="lang ca" onClick={() => setLang('KH')}>
+                    <button className="lang ca" onClick={() => changeLanguage('KH')}>
                         <span className="lang-flag"><img src={cambodjiyaFlag} alt="cambodia"/></span>
                         <span className="title">ប្រទេសកម្ពុជា</span>
                     </button>
                     {/*eng*/}
-                    <button className="lang" onClick={() => setLang('EN')}>
+                    <button className="lang" onClick={() => changeLanguage('EN')}>
                         <span className="lang-flag"><img src={ukFlag} alt="english"/></span>
                         <span className="title">English</span>
                     </button>
                     {/*china*/}
                         <button className="lang ch" onClick={() => {
-                            setLang('CH');
+                            changeLanguage('CH');
                             counter();
                         }}>
                         <span className="lang-flag"><img src={chinaFlag} alt="chinese"/></span>
