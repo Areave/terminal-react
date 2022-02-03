@@ -9,7 +9,6 @@ import PaymentPage from "../payment/payment";
 import TestComp from "../testComp";
 import OtherPage from "../other/other";
 import ServicePage from "../service/service";
-import SendPaymentPage from "../sendPayment/sendPayment";
 import InsertCoinPage from '../insertCoin/insertCoin';
 import KioskNumberPage from '../kioskNumber/kioskNumber';
 
@@ -44,12 +43,9 @@ const App: React.FC<any> = (props) => {
     useEffect(() => {
         if (!token) {
             if (urlParam.has('token_key')) {
-                // console.log('set token')
                 setToken(urlParam.get('token_key'));
             } else {
-                // console.log('ask token')
                 apiService.authRequest.then(sid => {
-                    console.log('set token', sid)
                     setToken(sid);
                 });
             }
@@ -157,7 +153,6 @@ const App: React.FC<any> = (props) => {
                 <Route path='/other' element={<OtherPage otherProps={otherProps}/>}/>
                 <Route path='/payment' element={<PaymentPage paymentProps={paymentProps} setCoinProps={setCoinProps}/>}/>
                 <Route path='/service' element={<ServicePage props={props}/>}/>
-                {/*<Route path='/send_payment' element={<SendPaymentPage params={params} setCoinProps={setCoinProps}/>}/>*/}
                 <Route path='/insert_coin' element={<InsertCoinPage coinProps={coinProps}/>}/>
                 <Route path='/*' element={<TestComp/>}/>
             </Routes>

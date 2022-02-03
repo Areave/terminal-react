@@ -1,17 +1,16 @@
 import React, {useContext, useEffect, useState} from "react";
 import ToolPanel from "../toolPanel/toolPanel";
 import PaymentButton from "../paymentButton/paymentButton";
+import Loader from "../loader/loader";
 
 const InnerPage: React.FC<any> = ({innerProps}) => {
 
     const urlParam = new URLSearchParams(window.location.search);
     let id: string = urlParam.get('id');
 
-    if (!innerProps) {
-        return null
-    }
+    if (!innerProps) return <Loader></Loader>;
 
-    const svc = innerProps[id];
+    const svc = innerProps[id] || null;
 
     return <div className="main">
         <div className="container">

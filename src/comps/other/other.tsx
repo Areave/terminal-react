@@ -5,6 +5,7 @@ import {useNavigate} from "react-router";
 import backIcon from '../../img/arrow-back-icon.svg'
 import menuIcon from '../../img/menu-icon.svg'
 import moneyIcon from '../../img/arrow-forward-icon.svg'
+import Loader from "../loader/loader";
 
 
 const OtherPage: React.FC<any> = ({otherProps}) => {
@@ -15,8 +16,11 @@ const OtherPage: React.FC<any> = ({otherProps}) => {
     const {langKit, isVertical} = context;
     const id = urlParam.get('d');
     const navigate = useNavigate();
-    const svc = otherProps ? otherProps['OTHER'] : null;
-    console.log(svc);
+
+
+    if (!otherProps) return <Loader></Loader>;
+
+    const svc = otherProps['OTHER'] || null;
 
     if (!svc) return <div></div>;
 

@@ -6,22 +6,20 @@ import backIcon from '../../img/arrow-back-icon.svg'
 import menuIcon from '../../img/menu-icon.svg'
 import moneyIcon from '../../img/arrow-forward-icon.svg'
 import $ from 'jquery'
+import Loader from "../loader/loader";
 
 const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
+
+    // console.log(paymentProps)
 
     const urlParam = new URLSearchParams(window.location.search);
     const context = useContext(LangContext);
     const token = urlParam.get('token_key');
+    const isVertical = urlParam.get('vertical');
     const {lang, langKit, setPaymentProps} = context;
     const pay_id = urlParam.get('pay_id');
     const navigate = useNavigate();
-
-
     const [thisPayment, setThisPayment] = useState(null);
-
-
-
-
 
     // @ts-ignore
     const jqueryCode = () => {
@@ -176,21 +174,6 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
         }
     }
 
-    useEffect(() => {
-        console.log('svc Hook', svc)
-        if (svc) {
-            console.log('svc Hook inside', svc)
-            jqueryCode();
-        }
-    }, );
-
-
-    if (!paymentProps || !paymentProps[pay_id]) {
-        console.log('no payment props')
-        return null
-    }
-
-    let svc = paymentProps[pay_id];
 
     const sendPayment = (params: any) => {
         const HOST = process.env.REACT_APP_API_HOST;
@@ -216,7 +199,7 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                         console.log(data)
                         setCoinProps(data)
                     }).then(() => {
-                        const path = '/insert_coin?token_key=' + token + '&trx=' + res.data.data.transaction_code + '&vertical=0'
+                        const path = '/insert_coin?token_key=' + token + '&trx=' + res.data.data.transaction_code + '&vertical=' + isVertical;
                         navigate(path)
                     })
                 }
@@ -225,8 +208,20 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
     }
 
 
-    if (!svc) return null;
+    let svc: any;
+    if (paymentProps && paymentProps[pay_id]) {
+        svc = paymentProps[pay_id]
+    } else {
+        svc = null
+    }
 
+    useEffect(() => {
+        if (svc) {
+            jqueryCode();
+        }
+    }, [svc]);
+
+    if (!paymentProps) return <Loader></Loader>;
 
     return <div className="main">
         <div className="container">
@@ -258,7 +253,7 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                                             data-placeholder={paramsObj.mask}
                                             data-name={paramsObj.name}>
                                     <span className="text">-- Click to select --</span>
-                                    <div key={index}>
+                                    <div key={index*2}>
                                         {paramsObj.allowed_values.map((value: any) => {
                                             return <div className="value" data-value={value.value}>{value.name}</div>
                                         })}
@@ -311,10 +306,6 @@ const PaymentPage: React.FC<any> = ({paymentProps, setCoinProps}) => {
                 </button>
             </div>
         </div>
-        <script>
-
-        </script>
-        {/*<script src="./payment_ui.js"></script>*/}
     </div>
 };
 
