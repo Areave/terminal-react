@@ -18,7 +18,7 @@ const getApiServiceInstance = () => {
         return axios.post(endPoint + route + '?sid=' + token, data, axiosConfig)
     }
 
-    const authRequest = apiRequest('make_auth', '0', {login: "201_xkj", password: "fwyayh"})
+    const authRequest = apiRequest('make_auth', '0', {login: "200_hoz", password: "200_hoz"})
             .then(res => res.data.data.session_key);
 
 
